@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lecturer Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+  <style>
+    .sidebar {
+      width: 220px;
+      min-height: 100vh;
+      background-color: #14532d;
+      color: #fff;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+    }
+
+    .sidebar a:hover {
+      background-color: #166534;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .sidebar a {
+        display: inline-block;
+        padding: 10px;
+      }
+
+      .d-flex {
+        flex-direction: column;
+      }
+    }
+  </style>
+    <style>
+    body {
+      background-color: #f5f5f5;
+    }
+    .admin-header {
+      background-color: #006400;
+      color: white;
+      padding: 1rem;
+      border-radius: 0 0 10px 10px;
+    }
+    .tab-btn.active {
+      background-color: #006400 !important;
+      color: white !important;
+    }
+    .tab-btn {
+      border: none;
+      background: #d9f0d9;
+      color: #006400;
+      font-weight: 500;
+      margin-bottom: 5px;
+      width: 100%;
+      text-align: left;
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+    .tab-btn:hover {
+      background-color: #c0e5c0;
+    }
+    @media (max-width: 768px) {
+  .admin-header {
+    text-align: center;
+    padding: 1rem 0.5rem;
+  }
+
+  .tab-btn {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  .modal-dialog {
+    margin: 1rem auto;
+  }
+
+  .container-fluid {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+  </style>
+  <style>
+  td ul {
+    padding-left: 1.2rem;
+    margin-bottom: 0;
+  }
+  td ul li {
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+
+<body class="bg-light">
+
+<!-- Header -->
+<header class="admin-header d-flex justify-content-between align-items-center px-4 mb-4 shadow-sm">
+  <div class="d-flex align-items-center">
+    <img src="{{ url_for('static', filename='img/nacos_logo.png') }}" alt="NACOS Logo" style="height: 50px; margin-right: 15px;">
+    <h4 class="mb-0 text-white">E-Library Management System – Lecturer Dashboard</h4>
+  </div>
+  <div class="text-end me-3">
+    <button id="logoutBtn" class="btn btn-outline-danger btn-sm">🚪 Logout</button>
+  </div>
+  <form id="logoutForm" action="{{ url_for('logout') }}" method="GET" style="display: none;"></form>
+</header>
+
+<!-- Main Layout -->
+<div class="container-fluid px-4">
+  <div class="row">
+    
+    <!-- Sidebar -->
+    <div class="col-lg-3 mb-4">
+      <button class="tab-btn active" data-target="lecturerCourses">📚 My Courses</button>
+      <button class="tab-btn" data-target="changePassword">🔐 Change Password</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-lg-9">
+
+      <!-- Welcome Message -->
+      <div class="mb-4">
+        <h3 class="text-success">Welcome, {{ session['username'].capitalize() }}</h3>
+      </div>
+
+      <!-- Tab: My Courses -->
+      <div id="lecturerCourses" class="tab-content-section">
+
+        {% if assigned_courses %}
+          {% for course in assigned_courses %}
+            <div class="card mb-4 shadow-sm">
+              <div class="card-body">
+                <h5 class="mb-3 text-primary">
+                  {{ course.course_code }} - {{ course.course_title }}
+                  <span class="badge bg-secondary float-end">Level {{ course.level }}</span>
+                </h5>
+
+                <!-- Upload Form -->
+                <form method="POST" action="{{ url_for('upload_material') }}" enctype="multipart/form-data" class="row g-2 mb-3">
+                  <input type="hidden" name="course_id" value="{{ course.id }}">
+                  <div class="col-md-5">
+                    <input type="text" name="title" class="form-control" placeholder="Material Title" required>
+                  </div>
+                  <div class="col-md-5">
+                    <input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx" required>
+                  </div>
+                  <div class="col-md-2">
+                    <button type="submit" class="btn btn-success w-100">Upload</button>
+                  </div>
+                </form>
+
+                <!-- Uploaded Materials -->
+                {% if course.materials %}
+                  <ul class="mt-3">
+                    {% for material in course.materials %}
+                      <li class="mb-1 d-flex justify-content-between align-items-center">
+                        <span>{{ material.title }}</span>
+                        <a href="{{ url_for('static', filename='uploads/' ~ material.filename) }}" target="_blank" class="btn btn-sm btn-outline-secondary me-1">📄 View</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% else %}
+                  <p class="text-muted mt-2">No materials uploaded yet.</p>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-muted">No courses assigned to you yet.</p>
+        {% endif %}
+      </div>
+
+      <!-- Tab: Change Password -->
+      <div id="changePassword" class="tab-content-section" style="display: none;">
+        <div class="card shadow-sm p-4">
+          <h5 class="mb-3">Change Password</h5>
+          <form method="POST" action="{{ url_for('lecturer_change_password') }}">
+            <div class="mb-3">
+              <label>Current Password</label>
+              <input type="password" name="current_password" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label>New Password</label>
+              <input type="password" name="new_password" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label>Confirm New Password</label>
+              <input type="password" name="confirm_password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Update Password</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="text-center text-muted mt-5 mb-3 small">
+        Powered by <strong>NACOS</strong>, Dept. of Computer Science.
+      </footer>
+
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabSections = document.querySelectorAll('.tab-content-section');
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        tabSections.forEach(sec => sec.style.display = 'none');
+        const target = document.getElementById(btn.getAttribute('data-target'));
+        if (target) target.style.display = 'block';
+      });
+    });
+
+    // Show only the first tab by default
+    tabSections.forEach((s, i) => s.style.display = i === 0 ? 'block' : 'none');
+  });
+</script>
+
+</body>
+</html>

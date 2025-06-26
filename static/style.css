@@ -1,0 +1,104 @@
+/* style.css - Shared styling for E-Library system */
+
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header */
+.navbar {
+  background-color: #006400; /* deep green */
+  color: white;
+}
+
+.navbar .navbar-brand {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: #006400; /* unified green */
+}
+
+.sidebar a {
+  color: white;
+  padding: 10px 15px;
+  display: block;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.sidebar a:hover {
+  background-color: #004d00; /* darker green */
+}
+
+.sidebar h4 {
+  color: white;
+  padding: 15px;
+  font-size: 1.1rem;
+}
+
+.fuoye-logo {
+  max-width: 120px;
+  height: auto;
+  display: block;
+  margin: 10px auto;
+}
+
+/* Cards */
+.card {
+  border: none;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+}
+
+/* Buttons */
+.btn-success, .btn-primary, .btn-dark {
+  border-radius: 0.5rem;
+}
+
+/* Tabs */
+.nav-tabs .nav-link.active {
+  background-color: #006400;
+  color: white;
+}
+
+.nav-tabs .nav-link {
+  color: #006400;
+}
+
+/* Alerts */
+.alert {
+  margin-top: 10px;
+  border-radius: 0.5rem;
+}
+
+/* Overlay for mobile sidebar */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    width: 250px;
+    height: 100vh;
+    z-index: 1030;
+    transform: translateX(-250px);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+
+  .content-overlay {
+    display: none;
+  }
+
+  .sidebar.show + .content-overlay {
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1020;
+  }
+}

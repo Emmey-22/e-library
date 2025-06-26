@@ -1,0 +1,199 @@
+/* ====== Base Reset & Theme ====== */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+/* ====== Sidebar ====== */
+.sidebar {
+  width: 280px;
+  min-height: 100vh;
+  background-color: #2c3e50;
+  transition: all 0.3s;
+}
+
+.sidebar h4, .sidebar h6 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+.sidebar a {
+  font-size: 0.9rem; /* Smaller and neater */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0.6rem 1rem;
+}
+
+
+.sidebar a:hover,
+.sidebar a.active {
+  background-color: white;
+  color: #343a40;
+  font-weight: 500;
+}
+
+/* Optional: Add icons */
+.sidebar a::before {
+  content: '▶';
+  margin-right: 0.5rem;
+  font-size: 0.75rem;
+}
+
+/* ====== Header ====== */
+header {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+header img {
+  height: 50px;
+}
+
+header h4 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #007bff;
+}
+
+/* ====== Cards ====== */
+.card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card h5 {
+  margin-bottom: 1rem;
+}
+
+/* ====== Toasts ====== */
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1060;
+}
+
+/* ====== Footer ====== */
+footer {
+  text-align: center;
+  color: #777;
+  font-size: 0.85rem;
+  padding: 1rem;
+}
+
+/* ====== Dark Mode ====== */
+html[data-bs-theme="dark"] body {
+  background-color: #212529;
+  color: white;
+}
+
+html[data-bs-theme="dark"] .card {
+  background-color: #343a40;
+  color: white;
+}
+
+html[data-bs-theme="dark"] .sidebar a.active,
+html[data-bs-theme="dark"] .sidebar a:hover {
+  background-color: #dee2e6;
+  color: #212529;
+}
+.sidebar-header {
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-title {
+  color: white;
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
+
+.sidebar-group {
+  margin-bottom: 20px;
+}
+
+.sidebar-group-title {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 15px;
+  margin-bottom: 5px;
+}
+
+.sidebar-link {
+  color: rgba(255, 255, 255, 0.8);
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin: 2px 10px;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.sidebar-link i {
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+.sidebar-link:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+}
+
+.sidebar-link.active {
+  background-color: #3498db;
+  color: white;
+}
+
+/* ===== Content Sections ===== */
+.content-section {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Cards ===== */
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* ===== Dark Mode ===== */
+[data-bs-theme="dark"] .sidebar {
+  background-color: #212529;
+}
+
+[data-bs-theme="dark"] .sidebar-link.active {
+  background-color: #0d6efd;
+}
