@@ -66,8 +66,6 @@ python-docx==1.1.2
 python-dotenv==1.1.0
 pyttsx3==2.98
 pytz==2025.2
-pywin32-ctypes==0.2.3
-pywin32>=223; platform_system == "Windows"
 referencing==0.36.2
 requests==2.32.3
 rpds-py==0.25.1
